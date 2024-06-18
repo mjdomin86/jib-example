@@ -1,0 +1,54 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.mjdomin</groupId>
+        <artifactId>jib-example</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>service</artifactId>
+
+    <properties>
+        <mainClass>com.mjdomin.jib.example.App</mainClass>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jib</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <to>
+                                    <image>your-docker-registry/service-image</image>
+                                    <!--To use a private repo-->
+                                    <auth>
+                                        <username>$TO_USER_NAME</username>
+                                        <password>$TO_PASSWORD</password>
+                                    </auth>
+                                </to>
+                                <container>
+                                    <mainClass>${mainClass}</mainClass>
+                                    <ports>
+                                        <port>8080</port>
+                                    </ports>
+                                </container>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

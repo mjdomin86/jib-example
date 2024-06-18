@@ -1,0 +1,25 @@
+trigger:
+  branches:
+    include:
+      - main
+
+jobs:
+  - job: Build_image
+    displayName: Create release 'latest'
+
+    steps:
+      - task: MavenAuthenticate@0
+        displayName: Pre-Maven task
+        inputs:
+          mavenServiceConnections: repo
+
+      - task: Maven@3
+        displayName: "Maven build and push image"
+        inputs:
+          mavenOptions: '-Xmx3072m'
+          mavenPomFile: 'pom.xml'
+          options: '-e -B -Pjib'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.11'
+          jdkArchitectureOption: 'x64'
+          goals: deploy
