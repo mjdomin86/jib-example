@@ -14,6 +14,18 @@ jobs:
           mavenServiceConnections: repo
 
       - task: Maven@3
+        displayName: "Maven set version 'latest'"
+        inputs:
+          mavenOptions: '-Xmx3072m'
+          mavenPomFile: 'pom.xml'
+          options: '-e -U -DnewVersion=latest -DgenerateBackupPoms=false'
+          javaHomeOption: 'JDKVersion'
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          goals: versions:set
+
+      - task: Maven@3
         displayName: "Maven build and push image"
         inputs:
           mavenOptions: '-Xmx3072m'
